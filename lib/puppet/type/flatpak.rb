@@ -1,5 +1,3 @@
-require 'pathname'
-
 Puppet::Type.newtype(:flatpak) do
 
   @doc = <<-EOS
