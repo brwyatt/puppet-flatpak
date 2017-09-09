@@ -11,7 +11,18 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   ensurable do
+    newvalue(:present) do
+      unless provider.exists?
+        provider.create
+      end
+    end
     aliasvalue(:installed, :present)
+
+    newvalue(:absent) do
+      if provider.exists?
+        provider.destroy
+      end
+    end
     aliasvalue(:uninstalled, :absent)
   end
 
