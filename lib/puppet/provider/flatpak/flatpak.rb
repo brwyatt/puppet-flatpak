@@ -1,6 +1,6 @@
 Puppet::Type.type(:flatpak).provide(:flatpak) do
 
-  commands   :flatpak      => '/usr/bin/flatpak'
+  commands :flatpak => '/usr/bin/flatpak'
 
   def create
     args = [ "install", "--assumeyes", resource[:remote], resource[:ref] ]
