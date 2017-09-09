@@ -1,35 +1,23 @@
 # Class: flatpak
 # ===========================
 #
-# Full description of class flatpak here.
+# Main class to install and manage Flatpak
 #
 # Parameters
 # ----------
 #
 # Document parameters here.
 #
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
-#
-# Variables
-# ----------
-#
-# Here you should define a list of variables that this module would require.
-#
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
+# * `package_ensure`
+# Ensure value for the Flatpack package. Should be 'installed', 'latest', or a
+# version. Defaults to 'installed'.
 #
 # Examples
 # --------
 #
 # @example
 #    class { 'flatpak':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#      package_ensure => 'latest',
 #    }
 #
 # Authors
@@ -57,7 +45,26 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
-class flatpak {
+class flatpak (
+  String $package_ensure = 'installed',
+){
+  include ::apt
 
+  apt::source { 'flatpak':
+    location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
+    release  => $::os['distro']['codename'],
+    repos    => 'main',
+    key      => {
+      id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
+      server => 'keyserver.ubuntu.com',
+    },
+  }
 
+  package { 'flatpak':
+    ensure => $package_ensure,
+  }
+
+  Apt::Source['flatpak'] -> Package['flatpak']
 }
+
+# vim: ts=2 sts=2 sw=2 expandtab
