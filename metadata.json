@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "Bryan Wyatt <brwyatt@gmail.com>",
   "summary": "Module for installing and managing Flatpak packages",
-  "license": "LGPL-3.0",
+  "license": "LGPLv3",
   "source": "https://github.com/brwyatt/puppet-flatpak",
   "project_page": "https://github.com/brwyatt/puppet-flatpak",
   "issues_url": "https://github.com/brwyatt/puppet-flatpak/issues",
