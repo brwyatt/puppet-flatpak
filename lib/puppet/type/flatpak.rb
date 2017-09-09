@@ -11,12 +11,8 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   ensurable do
-    newvalues(:installed, :present) do
+    newvalue(:installed) do
       provider.create
-    end
-
-    newvalues(:uninstalled, :absent, :purged) do
-      provider.destroy
     end
   end
 
