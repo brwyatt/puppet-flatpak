@@ -16,7 +16,12 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def exists?
-    flatpak "remote-ls", resource[:name]
+    r = execute(["#{command(:flatpak)} remote-ls #{resource[:name]}"], :failonfail => false)
+    if r.exitstatus == 0
+      true
+    else
+      false
+    end
   end
 
 end
