@@ -64,6 +64,8 @@ class flatpak (
     ensure => $package_ensure,
   }
 
+  Flatpak_remote <| |> -> Flatpak <| |>
+
   Apt::Source['flatpak'] -> Package['flatpak']
 }
 
