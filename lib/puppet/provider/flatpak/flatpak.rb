@@ -12,7 +12,7 @@ Puppet::Type.type(:flatpak).provide(:flatpak) do
   end
 
   def exists?
-    r = execute(["#{command(:flatpak)} info #{resource[:name]}"], :failonfail => false)
+    r = execute(["#{command(:flatpak)} info #{resource[:ref]}"], :failonfail => false)
     if r.exitstatus == 0
       true
     else

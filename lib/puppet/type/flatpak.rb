@@ -7,7 +7,7 @@ Puppet::Type.newtype(:flatpak) do
   EOS
 
   autorequire(:flatpak_remote) do
-    resource[:remote]
+    self[:remote]
   end
 
   ensurable do
