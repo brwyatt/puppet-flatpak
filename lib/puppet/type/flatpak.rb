@@ -11,9 +11,8 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   ensurable do
-    newvalue(:installed) do
-      provider.create
-    end
+    aliasvalue(:installed, :present)
+    aliasvalue(:uninstalled, :absent)
   end
 
   validate do
