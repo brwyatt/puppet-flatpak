@@ -6,12 +6,11 @@ Puppet::Type.newtype(:flatpak) do
     }
   EOS
 
-  autorequire(:flatpak_remote) do
-    self[:remote]
-  end
-
   ensurable do
     newvalue(:present) do
+      autorequire(:flatpak_remote) do
+        self[:remote]
+      end
       unless provider.exists?
         provider.create
       end
