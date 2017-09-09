@@ -6,6 +6,10 @@ Puppet::Type.newtype(:flatpak) do
     }
   EOS
 
+  autorequire(:flatpak_remote) do
+    resource[:remote]
+  end
+
   ensurable do
     newvalues(:installed, :present) do
       provider.create
