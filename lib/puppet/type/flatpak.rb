@@ -6,7 +6,27 @@ Puppet::Type.newtype(:flatpak) do
     }
   EOS
 
-  ensurable
+  ensurable do
+    newvalues(:installed, :present) do
+      provider.create
+    end
+
+    newvalues(:uninstalled, :absent, :purged) do
+      provider.destroy
+    end
+  end
+
+  validate do
+  end
+
+  newparam(:ref, :namevar => true) do
+    desc 'Package reference to install'
+    newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
+  end
+
+  newparam(:remote) do
+    desc 'Name of the remote repo to install from'
+  end
 
 end
 
