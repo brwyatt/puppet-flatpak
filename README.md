@@ -11,73 +11,120 @@
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 1. [Limitations - OS compatibility, etc.](#limitations)
 1. [Development - Guide for contributing to the module](#development)
+1. [Contributors - List of those who've helped to make the module better](#contributors)
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+This module installs Flatpak from the developer's PPA on Launchpad and offers
+two defined types, one for adding/removing Remotes and another for installing/
+removing Flatpak applications.
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+This module was created to allow for managing/installing Flatpak-based
+application distributions, as some developers have started to move away from
+more traditional system packages such as apt/deb and rpm/yum, instead leveraging
+Flatpak's ability to be one-size-fits all.
 
 ## Setup
 
-### What flatpak affects **OPTIONAL**
+### What flatpak affects
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+This module adds the Flatpak PPA on Launchpad to the system's repository and
+installs Flatpak.
 
-If there's more that they should know about, though, this is the place to mention:
+### Setup Requirements
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+Currently, this module only supports Ubuntu, but may work with other Debian-
+based distributions.
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
+This module requires the `puppetlabs-apt` module in order to manage Apt repos.
 
 ### Beginning with flatpak
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
+To install this module, call:
+
+```bash
+puppet module install brwyatt-flatpak
+```
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+To install Flatpak for use in your Puppet manifests, simply include it into
+your manifests.
+
+```puppet
+include ::flatpak
+```
 
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+* [Classes](#classes)
+* [Defined Types](#defined-types)
+* [Providers](#providers)
+
+### Classes
+
+#### `flatpak`
+
+Installs the Flatpak PPA and installs Flatpak
+
+Parameters:
+* `package_ensure`: Ensure value for the Flatpak package. Default: 'installed'
+
+#### `flatpak::remotes::gnome`
+
+Adds the Gnome SDK remote to Flatpak. Includes the `flatpak` class to ensure
+Flatpak is installed first.
+
+This class has no parameters.
+
+### Defined Types
+
+#### `flatpak`
+
+This type installs (or uninstalls) Flatpak apps.
+
+Parameters:
+* `ensure`: If the package should be `present` (or `installed`) or `absent` (or
+  `uninstalled`)
+* `ref`: (namevar) The name of the package reference to be installed (or removed)
+* `remote`: The name of the remote repo to install the package from
+
+#### `flatpak_remote`
+
+This type adds and removes Flatpak remotes.
+
+Parameters:
+* `ensure`: If the remote should be `present` or `absent`
+* `name`: (namevar) The name of the remote
+* `location`: The location for the remote
+* `from`: if `true`, it specifies that location is a repo config file.
+
+### Providers
+
+#### `flatpak`
+
+Implements the `flatpak` type. Default provider.
+
+#### `flatpak_remote`
+
+Implements the `flatpak_remote` type. Default provider.
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
+Currently, this module can only install on Debian-based systems and has not been
+tested on distributions other than Ubuntu 16.04. It may or may not work on other
+Debian-based distributions, but makes no claims regarding such. This will not
+currently work at all on RHEL-based systems.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+Feel free to file issues in the GitHub [issue tracker](https://github.com/brwyatt/puppet-flatpak/issues) for the repository, or
+submit [Pull Requests](https://github.com/brwyatt/puppet-flatpak/pulls).
 
-## Release Notes/Contributors/Etc. **Optional**
+I may not have much time to work on (or test) this myself, so help to expand
+current functionality (especially to make it work for more people) is greatly
+appreciated and encouraged.
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+## Contributors
+
+The list of contributors can be found at: [https://github.com/brwyatt/puppet-flatpak/graphs/contributors](https://github.com/brwyatt/puppet-flatpak/graphs/contributors).
