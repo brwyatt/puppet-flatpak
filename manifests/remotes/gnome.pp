@@ -1,4 +1,4 @@
-# Class: flatpak::repos::gnome
+# Class: flatpak::remotes::gnome
 # ===========================
 #
 # Class to install the Gnome SDK Flatpak repo
@@ -7,7 +7,7 @@
 # --------
 #
 # @example
-#    class { 'flatpak::repos::gnome': }
+#    class { 'flatpak::remotes::gnome': }
 #
 # Authors
 # -------
@@ -34,7 +34,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
-class flatpak::repos::gnome {
+class flatpak::remotes::gnome {
   include ::flatpak
 
   flatpak_remote { 'gnome':
