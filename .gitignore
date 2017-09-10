@@ -1,3 +1,6 @@
+# vim
+.*.swp
+
 *.gem
 *.rbc
 /.config
