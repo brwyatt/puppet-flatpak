@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Changelog
 
+### Fixed
+- License format in Module metadata.json
+
 ## [0.1.0] - 2017-09-11
 Initial release
 ### Added
