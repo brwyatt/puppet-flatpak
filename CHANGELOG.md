@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - License format in Module metadata.json
+- Unbounded dependency version ranges
 
 ## [0.1.0] - 2017-09-11
 Initial release
