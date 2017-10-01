@@ -47,10 +47,17 @@
 
 class flatpak (
   String $package_ensure = 'installed',
+  Optional[String] $repo_file_name = undef,
 ){
   include ::apt
 
-  apt::source { 'flatpak':
+  if $repo_file_name {
+    $repo_name = $repo_file_name
+  } else {
+    $repo_name = "alexlarsson-ubuntu-flatpak-${::os['distro']['codename']}"
+  }
+
+  apt::source { $repo_name:
     location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
     release  => $::os['distro']['codename'],
     repos    => 'main',
@@ -66,7 +73,7 @@ class flatpak (
 
   Flatpak_remote <| |> -> Flatpak <| |>
 
-  Apt::Source['flatpak'] -> Package['flatpak']
+  Apt::Source[$repo_name] -> Package['flatpak']
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab
