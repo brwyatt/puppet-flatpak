@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Fixed
 - Made repo source file match PPA naming scheme
+- Support for older Facter versions (<3.0.0)
 
 ## [0.1.1] - 2017-09-12
 ### Added
