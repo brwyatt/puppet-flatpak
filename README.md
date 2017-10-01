@@ -1,5 +1,14 @@
 # flatpak
 
+[![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://raw.githubusercontent.com/brwyatt/puppet-flatpak/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/brwyatt/puppet-flatpak.svg)](https://github.com/brwyatt/puppet-flatpak/issues)
+[![GitHub forks](https://img.shields.io/github/forks/brwyatt/puppet-flatpak.svg)](https://github.com/brwyatt/puppet-flatpak/network)
+[![GitHub stars](https://img.shields.io/github/stars/brwyatt/puppet-flatpak.svg)](https://github.com/brwyatt/puppet-flatpak/stargazers)
+
+[![Puppet Forge](https://img.shields.io/puppetforge/v/brwyatt/flatpak.svg)](https://forge.puppetlabs.com/brwyatt/flatpak)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/brwyatt/flatpak.svg)](https://forge.puppetlabs.com/brwyatt/flatpak)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/brwyatt/flatpak.svg)](https://forge.puppetlabs.com/brwyatt/flatpak)
+
 #### Table of Contents
 
 1. [Description](#description)
