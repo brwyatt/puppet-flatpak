@@ -22,7 +22,8 @@ Puppet::Type.newtype(:flatpak) do
 
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak apps.
-    flatpak { '':
+    flatpak { 'org.gnome.Platform':
+      remote => 'gnome',
     }
   EOS
 

@@ -23,7 +23,9 @@ Puppet::Type.newtype(:flatpak_remote) do
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak
     remotes.
-    flatpak { '':
+    flatpak_remote { 'gnome':
+      location => 'https://sdk.gnome.org/gnome.flatpakrepo',
+      from     => true,
     }
   EOS
 
