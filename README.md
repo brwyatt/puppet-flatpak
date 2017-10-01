@@ -69,6 +69,8 @@ Installs the Flatpak PPA and installs Flatpak
 
 Parameters:
 * `package_ensure`: Ensure value for the Flatpak package. Default: 'installed'
+* `repo_file_name`: Optional name for the repo source file. Defaults to the PPA
+  naming scheme to avoid duplicate repository files.
 
 #### `flatpak::remotes::gnome`
 

@@ -12,12 +12,17 @@
 # Ensure value for the Flatpack package. Should be 'installed', 'latest', or a
 # version. Defaults to 'installed'.
 #
+# * `repo_file_name`
+# Optional name for the repo source file. Defaults to the PPA naming scheme to
+# avoid duplicate repository files.
+#
 # Examples
 # --------
 #
 # @example
 #    class { 'flatpak':
 #      package_ensure => 'latest',
+#      repo_file_name => 'flatpak',
 #    }
 #
 # Authors
