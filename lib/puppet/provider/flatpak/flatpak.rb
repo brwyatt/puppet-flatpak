@@ -23,7 +23,8 @@ Puppet::Type.type(:flatpak).provide(:flatpak) do
   commands :flatpak => '/usr/bin/flatpak'
 
   def create
-    args = [ "install", "--assumeyes", resource[:remote], resource[:ref] ]
+    name = resource[:version].nil? ? resource[:ref] : "#{resource[:ref]}//#{resource[:version]}"
+    args = [ "install", "--assumeyes", resource[:remote], name ]
     flatpak(args)
   end
 

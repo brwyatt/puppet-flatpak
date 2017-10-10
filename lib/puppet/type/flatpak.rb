@@ -51,6 +51,11 @@ Puppet::Type.newtype(:flatpak) do
     newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
+  newparam(:version) do
+    desc 'Version of package to install'
+    newvalues(/^(\d+(?:\.\d+)+|master)$/)
+  end
+
   newparam(:remote) do
     desc 'Name of the remote repo to install from'
   end
