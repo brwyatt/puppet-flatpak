@@ -53,7 +53,7 @@ Puppet::Type.newtype(:flatpak) do
 
   newparam(:branch) do
     desc 'Branch of package to install'
-    newvalues(/^(\d+(?:\.\d+)+|master)$/)
+    newvalues(/\A[a-zA-Z0-9.\-_]+\Z/)
   end
 
   newparam(:remote) do
