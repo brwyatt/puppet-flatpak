@@ -54,6 +54,10 @@ Puppet::Type.newtype(:flatpak) do
              'or namevar instead of with `ref`. See README.md for more',
              'information.'].join(' '))
     end
+
+    if self[:remote].nil?
+      raise('Parameter `remote` must be defined.')
+    end
   end
 
   newparam(:name, :namevar => true) do
@@ -81,7 +85,8 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   newparam(:remote) do
-    desc 'Name of the remote repo to install from.'
+    desc 'Name of the remote repo to install from. (required)'
+    newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
 end
