@@ -51,8 +51,8 @@ Puppet::Type.newtype(:flatpak) do
     newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
-  newparam(:version) do
-    desc 'Version of package to install'
+  newparam(:branch) do
+    desc 'Branch of package to install'
     newvalues(/^(\d+(?:\.\d+)+|master)$/)
   end
 
