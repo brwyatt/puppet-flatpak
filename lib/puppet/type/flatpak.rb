@@ -23,6 +23,9 @@ Puppet::Type.newtype(:flatpak) do
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak apps.
     flatpak { 'org.gnome.Platform':
+      ensure => installed,
+      arch   => 'x86_64',
+      branch => '3.2',
       remote => 'gnome',
     }
   EOS
@@ -54,27 +57,31 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   newparam(:name, :namevar => true) do
-    desc 'Package name to install'
+    desc 'Name of package to install. (namevar)'
     newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
   newparam(:ref) do
-    desc 'Package reference to install. Incompatable with `arch` and `branch`'
+    desc <<-EOS
+      Reference of package to install. May be full Identifier Triple.
+      Incompatable with `arch` and `branch`.
+    EOS
+
     newvalues(/\A[a-zA-Z0-9.\-_]+(?:\/[a-zA-Z0-9.\-_]*){0,2}\Z/)
   end
 
   newparam(:arch) do
-    desc 'Architecture of package to install'
+    desc 'Architecture of package to install. Incompatable with `ref`.'
     newvalues(:aarch64, :arm, :i386, :x86_64)
   end
 
   newparam(:branch) do
-    desc 'Branch of package to install'
+    desc 'Branch of package to install, Incompatable with `ref`.'
     newvalues(/\A[a-zA-Z0-9.\-_]+\Z/)
   end
 
   newparam(:remote) do
-    desc 'Name of the remote repo to install from'
+    desc 'Name of the remote repo to install from.'
   end
 
 end
