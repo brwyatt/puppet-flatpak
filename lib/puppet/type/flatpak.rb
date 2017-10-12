@@ -44,11 +44,28 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   validate do
+    if self[:ref] && (self[:arch] || self[:branch])
+      raise(['Use of `ref` with `arch` and `branch` is ambiguous. Package arch',
+             'and branch should be defined in `ref` as an Identifier Triple if',
+             '`ref` is defined, or package name should be defined with `name`',
+             'or namevar instead of with `ref`. See README.md for more',
+             'information.'].join(' '))
+    end
   end
 
-  newparam(:ref, :namevar => true) do
-    desc 'Package reference to install'
+  newparam(:name, :namevar => true) do
+    desc 'Package name to install'
     newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
+  end
+
+  newparam(:ref) do
+    desc 'Package reference to install. Incompatable with `arch` and `branch`'
+    newvalues(/\A[a-zA-Z0-9.\-_]+(?:\/[a-zA-Z0-9.\-_]*){0,2}\Z/)
+  end
+
+  newparam(:arch) do
+    desc 'Architecture of package to install'
+    newvalues(:aarch64, :arm, :i386, :x86_64)
   end
 
   newparam(:branch) do
