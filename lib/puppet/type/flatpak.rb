@@ -23,6 +23,9 @@ Puppet::Type.newtype(:flatpak) do
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak apps.
     flatpak { 'org.gnome.Platform':
+      ensure => installed,
+      arch   => 'x86_64',
+      branch => '3.2',
       remote => 'gnome',
     }
   EOS
@@ -44,15 +47,47 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   validate do
+    if self[:ref] && (self[:arch] || self[:branch])
+      raise(['Use of `ref` with `arch` and `branch` is ambiguous. Package arch',
+             'and branch should be defined in `ref` as an Identifier Triple if',
+             '`ref` is defined, or package name should be defined with `name`',
+             'or namevar instead of with `ref`. See README.md for more',
+             'information.'].join(' '))
+    end
+
+    if self[:remote].nil? && [:present, :installed].include?(self[:ensure])
+      raise(['Parameter `remote` must be defined if `ensure` is "present" or',
+             '"installed".'].join(' '))
+    end
   end
 
-  newparam(:ref, :namevar => true) do
-    desc 'Package reference to install'
+  newparam(:name, :namevar => true) do
+    desc 'Name of package to install. (namevar)'
     newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
+  newparam(:ref) do
+    desc <<-EOS
+      Reference of package to install. May be full Identifier Triple.
+      Incompatable with `arch` and `branch`.
+    EOS
+
+    newvalues(/\A[a-zA-Z0-9.\-_]+(?:\/[a-zA-Z0-9.\-_]*){0,2}\Z/)
+  end
+
+  newparam(:arch) do
+    desc 'Architecture of package to install. Incompatable with `ref`.'
+    newvalues(:aarch64, :arm, :i386, :x86_64)
+  end
+
+  newparam(:branch) do
+    desc 'Branch of package to install, Incompatable with `ref`.'
+    newvalues(/\A[a-zA-Z0-9.\-_]+\Z/)
+  end
+
   newparam(:remote) do
-    desc 'Name of the remote repo to install from'
+    desc 'Name of the remote repo to install from.'
+    newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
 end

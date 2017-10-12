@@ -22,17 +22,32 @@ Puppet::Type.type(:flatpak).provide(:flatpak) do
 
   commands :flatpak => '/usr/bin/flatpak'
 
+  def resolve_ref(resource)
+    if resource[:ref]
+      ref = resource[:ref]
+    else
+      arch = resource[:arch].nil? ? "/" : "/#{resource[:arch]}"
+      branch = resource[:branch].nil? ? "/" : "/#{resource[:branch]}"
+      ref = resource[:name] + arch + branch
+    end
+
+    return ref
+  end
+
   def create
-    args = [ "install", "--assumeyes", resource[:remote], resource[:ref] ]
+    ref = resolve_ref(resource)
+    args = [ "install", "--assumeyes", resource[:remote], ref ]
     flatpak(args)
   end
 
   def destroy
-    flatpak "uninstall", resource[:ref]
+    ref = resolve_ref(resource)
+    flatpak "uninstall", ref
   end
 
   def exists?
-    r = execute(["#{command(:flatpak)} info #{resource[:ref]}"], :failonfail => false)
+    ref = resolve_ref(resource)
+    r = execute(["#{command(:flatpak)} info #{ref}"], :failonfail => false)
     if r.exitstatus == 0
       true
     else

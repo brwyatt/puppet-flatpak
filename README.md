@@ -97,8 +97,22 @@ This type installs (or uninstalls) Flatpak apps.
 Parameters:
 * `ensure`: If the package should be `present` (or `installed`) or `absent` (or
   `uninstalled`)
-* `ref`: (namevar) The name of the package reference to be installed (or removed)
-* `remote`: The name of the remote repo to install the package from
+* `arch`: The package architecture to be installed. Cannot be used if `ref` is
+  defined.
+* `branch`: The package branch to be installed. Cannot be used if `ref` is
+  defined.
+* `name`: (namevar) The name of the package to be installed (or removed)
+* `ref`: The package ref to install. This can be any valid pakcage ref, from
+  simply the package name up to a full Identifier Triple ("name/arch/branch").
+  Cannot be used if `branch` or `arch` are defined.
+* `remote`: The name of the remote repo to install the package from. Required
+  if `ensure` is "installed" or "present".
+
+If defined, this type will install the package identified in the `ref`
+parameter. Otherwise, it will attempt to generate an Identifier Triple from
+the values of `name`/`arch`/`branch`. If no parameters are explicitly defined,
+this will result in attempting to install the package with the resource's name
+and the remote's default architecture and branch.
 
 #### `flatpak_remote`
 
