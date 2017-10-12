@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `flatpak` type's namevar is now `name` instead of `ref`. Behavior and
   expected values remains the same as before.
+- The `remote` parameter on the `flatpak` type is now explicitly required
 
 ### Fixed
 - Made repo source file match PPA naming scheme

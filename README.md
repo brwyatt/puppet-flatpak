@@ -105,7 +105,7 @@ Parameters:
 * `ref`: The package ref to install. This can be any valid pakcage ref, from
   simply the package name up to a full Identifier Triple ("name/arch/branch").
   Cannot be used if `branch` or `arch` are defined.
-* `remote`: The name of the remote repo to install the package from
+* `remote`: (required) The name of the remote repo to install the package from
 
 If defined, this type will install the package identified in the `ref`
 parameter. Otherwise, it will attempt to generate an Identifier Triple from
