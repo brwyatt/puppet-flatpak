@@ -55,8 +55,9 @@ Puppet::Type.newtype(:flatpak) do
              'information.'].join(' '))
     end
 
-    if self[:remote].nil?
-      raise('Parameter `remote` must be defined.')
+    if self[:remote].nil? && [:present, :installed].include?(self[:ensure])
+      raise(['Parameter `remote` must be defined if `ensure` is "present" or',
+             '"installed".'].join(' '))
     end
   end
 
@@ -85,7 +86,7 @@ Puppet::Type.newtype(:flatpak) do
   end
 
   newparam(:remote) do
-    desc 'Name of the remote repo to install from. (required)'
+    desc 'Name of the remote repo to install from.'
     newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
   end
 
