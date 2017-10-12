@@ -98,6 +98,7 @@ Parameters:
 * `ensure`: If the package should be `present` (or `installed`) or `absent` (or
   `uninstalled`)
 * `ref`: (namevar) The name of the package reference to be installed (or removed)
+* `version`: The name of the package version to be installed
 * `remote`: The name of the remote repo to install the package from
 
 #### `flatpak_remote`
