@@ -19,11 +19,10 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
-
-  commands :flatpak => '/usr/bin/flatpak'
+  commands flatpak: '/usr/bin/flatpak'
 
   def create
-    args = [ "remote-add" ]
+    args = ['remote-add']
     if resource[:from]
       args.push('--from')
     end
@@ -32,18 +31,17 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def destroy
-    flatpak "remote-delete", resource[:name]
+    flatpak 'remote-delete', resource[:name]
   end
 
   def exists?
-    r = execute(["#{command(:flatpak)} remote-ls #{resource[:name]}"], :failonfail => false)
-    if r.exitstatus == 0
+    r = execute(["#{command(:flatpak)} remote-ls #{resource[:name]}"], failonfail: false)
+    if r.exitstatus.zero?
       true
     else
       false
     end
   end
-
 end
 
 # vim: ts=2 sts=2 sw=2 expandtab

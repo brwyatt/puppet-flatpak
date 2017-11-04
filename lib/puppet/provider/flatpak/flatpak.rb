@@ -19,42 +19,40 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 Puppet::Type.type(:flatpak).provide(:flatpak) do
-
-  commands :flatpak => '/usr/bin/flatpak'
+  commands flatpak: '/usr/bin/flatpak'
 
   def resolve_ref(resource)
     if resource[:ref]
       ref = resource[:ref]
     else
-      arch = resource[:arch].nil? ? "/" : "/#{resource[:arch]}"
-      branch = resource[:branch].nil? ? "/" : "/#{resource[:branch]}"
+      arch = resource[:arch].nil? ? '/' : "/#{resource[:arch]}"
+      branch = resource[:branch].nil? ? '/' : "/#{resource[:branch]}"
       ref = resource[:name] + arch + branch
     end
 
-    return ref
+    ref
   end
 
   def create
     ref = resolve_ref(resource)
-    args = [ "install", "--assumeyes", resource[:remote], ref ]
+    args = ['install', '--assumeyes', resource[:remote], ref]
     flatpak(args)
   end
 
   def destroy
     ref = resolve_ref(resource)
-    flatpak "uninstall", ref
+    flatpak 'uninstall', ref
   end
 
   def exists?
     ref = resolve_ref(resource)
-    r = execute(["#{command(:flatpak)} info #{ref}"], :failonfail => false)
-    if r.exitstatus == 0
+    r = execute(["#{command(:flatpak)} info #{ref}"], failonfail: false)
+    if r.exitstatus.zero?
       true
     else
       false
     end
   end
-
 end
 
 # vim: ts=2 sts=2 sw=2 expandtab

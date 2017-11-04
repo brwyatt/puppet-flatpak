@@ -19,7 +19,6 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 Puppet::Type.newtype(:flatpak) do
-
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak apps.
     flatpak { 'org.gnome.Platform':
@@ -61,9 +60,9 @@ Puppet::Type.newtype(:flatpak) do
     end
   end
 
-  newparam(:name, :namevar => true) do
+  newparam(:name, namevar: true) do
     desc 'Name of package to install. (namevar)'
-    newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
+    newvalues(%r{\A[a-zA-Z0-9.\-_]*\Z})
   end
 
   newparam(:ref) do
@@ -72,7 +71,7 @@ Puppet::Type.newtype(:flatpak) do
       Incompatable with `arch` and `branch`.
     EOS
 
-    newvalues(/\A[a-zA-Z0-9.\-_]+(?:\/[a-zA-Z0-9.\-_]*){0,2}\Z/)
+    newvalues(%r{\A[a-zA-Z0-9.\-_]+(?:/[a-zA-Z0-9.\-_]*){0,2}\Z})
   end
 
   newparam(:arch) do
@@ -82,14 +81,13 @@ Puppet::Type.newtype(:flatpak) do
 
   newparam(:branch) do
     desc 'Branch of package to install, Incompatable with `ref`.'
-    newvalues(/\A[a-zA-Z0-9.\-_]+\Z/)
+    newvalues(%r{\A[a-zA-Z0-9.\-_]+\Z})
   end
 
   newparam(:remote) do
     desc 'Name of the remote repo to install from.'
-    newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
+    newvalues(%r{\A[a-zA-Z0-9.\-_]*\Z})
   end
-
 end
 
 # vim: ts=2 sts=2 sw=2 expandtab

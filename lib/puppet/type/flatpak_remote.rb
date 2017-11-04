@@ -19,7 +19,6 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 Puppet::Type.newtype(:flatpak_remote) do
-
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak
     remotes.
@@ -34,9 +33,9 @@ Puppet::Type.newtype(:flatpak_remote) do
   validate do
   end
 
-  newparam(:name, :namevar => true) do
+  newparam(:name, namevar: true) do
     desc 'Name of the remote'
-    newvalues(/\A[a-zA-Z0-9.\-_]*\Z/)
+    newvalues(%r{\A[a-zA-Z0-9.\-_]*\Z})
   end
 
   newparam(:location) do
@@ -48,7 +47,6 @@ Puppet::Type.newtype(:flatpak_remote) do
 
     defaultto false
   end
-
 end
 
 # vim: ts=2 sts=2 sw=2 expandtab
