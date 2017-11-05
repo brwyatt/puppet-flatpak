@@ -6,6 +6,13 @@ describe 'flatpak' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+      it { is_expected.to contain_package('flatpak') }
+
+      context 'with repo_file_name' do
+        let(:params) { { 'repo_file_name' => 'TEST' } }
+
+        it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
+      end
     end
   end
 end
