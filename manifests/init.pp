@@ -6,8 +6,6 @@
 # Parameters
 # ----------
 #
-# Document parameters here.
-#
 # * `package_ensure`
 # Ensure value for the Flatpack package. Should be 'installed', 'latest', or a
 # version. Defaults to 'installed'.
