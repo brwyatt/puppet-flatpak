@@ -6,6 +6,8 @@ describe 'flatpak::remotes::gnome' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+      it { is_expected.to contain_class('flatpak') }
+      it { is_expected.to contain_flatpak_remote('gnome') }
     end
   end
 end
