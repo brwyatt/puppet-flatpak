@@ -87,7 +87,7 @@ class flatpak (
 
   Flatpak_remote <| |> -> Flatpak <| |>
 
-  Apt::Source[$repo_name] -> Package['flatpak']
+  Exec['apt_update'] -> Package['flatpak']
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab
