@@ -32,5 +32,6 @@
     }
   ],
   "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
-  "template-ref": "1.3.0-0-g632fa63"
+  "template-ref": "1.6.0-0-gf5564c0",
+  "pdk-version": "1.6.0"
 }
