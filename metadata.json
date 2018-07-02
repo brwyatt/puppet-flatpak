@@ -1,6 +1,6 @@
 {
   "name": "brwyatt-flatpak",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Bryan Wyatt <brwyatt@gmail.com>",
   "summary": "Module for installing and managing Flatpak packages",
   "license": "LGPL-3.0",
