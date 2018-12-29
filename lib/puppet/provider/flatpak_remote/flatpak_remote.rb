@@ -36,11 +36,11 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   def exists?
     method(:flatpak).call(['remotes']).split("\n").each do |line|
-      if /^#{Regexp.escape(resource[:name])}\s/.match?(line)
+      if %r{^#{Regexp.escape(resource[:name])}\s}.match?(line)
         return true
       end
     end
-    return false
+    false
   end
 end
 
