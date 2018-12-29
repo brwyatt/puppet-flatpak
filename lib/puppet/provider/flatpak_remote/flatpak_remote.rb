@@ -35,12 +35,12 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def exists?
-    r = execute(["#{command(:flatpak)} remote-ls #{resource[:name]}"], failonfail: false)
-    if r.exitstatus.zero?
-      true
-    else
-      false
+    method(:flatpak).call(['remotes']).split("\n").each do |line|
+      if /^#{Regexp.escape(resource[:name])}\s/.match?(line)
+        return true
+      end
     end
+    return false
   end
 end
 
