@@ -39,11 +39,13 @@ Puppet::Type.newtype(:flatpak_remote) do
 
   newproperty(:gpg_verify) do
     desc 'Verify GPG signatures'
+    newvalues(:true, :false)
     defaultto true
   end
 
   newproperty(:gpg_verify_summary) do
     desc 'Verify summary GPG signatures'
+    newvalues(:true, :false)
     defaultto true
   end
 end
