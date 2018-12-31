@@ -89,7 +89,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   def exists?
     puts("exists: #{@property_flush[:ensure]}")
-    @property_flush[:ensure] == :present
+    @property_hash[:ensure] == :present
   end
 
   def flush
