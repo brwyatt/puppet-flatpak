@@ -70,16 +70,9 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   def self.prefetch(resources)
     puts('prefetch')
-    remotes = instances
-
-    resources.each_key do |name|
-      provider = remotes.find { |remote|
-        remote.name == resources[name].parameters[:name].value
-      }
-
-      if provider then
-        puts("PROVIDER FOUND! #{name}")
-        resources[name].provider = provider
+    instances.each do |instance|
+      if resource = resources[instance.name]
+        resource.provider = instance
       end
     end
   end
