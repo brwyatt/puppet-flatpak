@@ -1,7 +1,7 @@
 # Copyright
 # ---------
 #
-# Copyright 2017 Bryan Wyatt, unless otherwise noted.
+# Copyright 2017, 2018 Bryan Wyatt, unless otherwise noted.
 #
 # This file is part of brwyatt-flatpak.
 #
@@ -22,30 +22,29 @@ Puppet::Type.newtype(:flatpak_remote) do
   @doc = <<-EOS
     This type provides Puppet with the capabilities to manage flatpak
     remotes.
-    flatpak_remote { 'gnome':
-      location => 'https://sdk.gnome.org/gnome.flatpakrepo',
-      from     => true,
-    }
   EOS
 
   ensurable
 
-  validate do
-  end
-
-  newparam(:name, namevar: true) do
+  newparam(:name, :namevar => true) do
     desc 'Name of the remote'
     newvalues(%r{\A[a-zA-Z0-9.\-_]*\Z})
   end
 
-  newparam(:location) do
+  newproperty(:url) do
+    isrequired
     desc 'Location of the remote repo'
+    newvalues(%r{\Ahttps?://.*\Z})
   end
 
-  newparam(:from) do
-    desc 'If true, specifies that `location` is a repo config file, not the repo location'
+  newproperty(:gpg_verify) do
+    desc 'Verify GPG signatures'
+    defaultto true
+  end
 
-    defaultto false
+  newproperty(:gpg_verify_summary) do
+    desc 'Verify summary GPG signatures'
+    defaultto true
   end
 end
 
