@@ -27,13 +27,11 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   @config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
 
   def initialize(value={})
-    puts("initialize: #{value}")
     super(value)
     @property_flush = {}
   end
 
   def self.get_remote(remote)
-    puts('get_remote')
     section_name = "remote \"#{remote}\""
 
     if @config_file.section_names.include? section_name then
@@ -54,7 +52,6 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def self.instances
-    puts('instances')
     remotes = []
 
     @config_file.section_names.each do |section_name|
@@ -63,13 +60,10 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
       end
     end
 
-    puts('end::instances')
-    puts("Remotes: #{remotes}")
     remotes.compact
   end
 
   def self.prefetch(resources)
-    puts('prefetch')
     instances.each do |instance|
       if resource = resources[instance.name]
         resource.provider = instance
@@ -78,22 +72,18 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def create
-    puts('create')
     @property_flush[:ensure] = :present
   end
 
   def destroy
-    puts('destroy')
     @property_flush[:ensure] = :absent
   end
 
   def exists?
-    puts("exists: #{@property_flush[:ensure]}")
     @property_hash[:ensure] == :present
   end
 
   def flush
-    puts('flush')
     if @property_flush[:ensure] == :absent
     end
 
