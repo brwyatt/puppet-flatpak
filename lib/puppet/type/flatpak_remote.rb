@@ -26,7 +26,7 @@ Puppet::Type.newtype(:flatpak_remote) do
 
   ensurable
 
-  newparam(:name, :namevar => true) do
+  newparam(:name, namevar: true) do
     desc 'Name of the remote'
     newvalues(%r{\A[a-zA-Z0-9.\-_]*\Z})
   end

@@ -26,7 +26,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   @config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
 
-  def initialize(value={})
+  def initialize(value = {})
     super(value)
     @property_flush = {}
   end
@@ -34,14 +34,14 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   def self.get_remote(remote)
     section_name = "remote \"#{remote}\""
 
-    if @config_file.section_names.include? section_name then
+    if @config_file.section_names.include? section_name
       settings = @config_file.get_settings(section_name)
       {
         name: remote,
         ensure: :present,
         url: settings['url'],
-        gpg_verify: settings['gpg-verify'].to_s.downcase == 'true',
-        gpg_verify_summary: settings['gpg-verify-summary'].to_s.downcase == 'true',
+        gpg_verify: settings['gpg-verify'].to_s.casecmp('true').zero?,
+        gpg_verify_summary: settings['gpg-verify-summary'].to_s.casecmp('true').zero?,
       }
     else
       {
@@ -55,7 +55,8 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
     remotes = []
 
     @config_file.section_names.each do |section_name|
-      if match = section_name.match(%r{\Aremote "([^"]*)"\Z})
+      match = section_name.match(%r{\Aremote "([^"]*)"\Z})
+      if match
         remotes << new(get_remote(match.captures[0]))
       end
     end
@@ -65,7 +66,8 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   def self.prefetch(resources)
     instances.each do |instance|
-      if resource = resources[instance.name]
+      resource = resources[instance.name]
+      if resource
         resource.provider = instance
       end
     end

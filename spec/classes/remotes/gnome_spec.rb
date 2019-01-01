@@ -7,10 +7,12 @@ describe 'flatpak::remotes::gnome' do
 
       it { is_expected.to compile }
       it { is_expected.to contain_class('flatpak') }
-      it { is_expected.to contain_flatpak_remote('gnome').with(
-        :ensure => 'present',
-        :url => 'https://sdk.gnome.org/repo/',
-      )}
+      it {
+        is_expected.to contain_flatpak_remote('gnome').with(
+          ensure: 'present',
+          url: 'https://sdk.gnome.org/repo/',
+        )
+      }
     end
   end
 end

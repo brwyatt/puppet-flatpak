@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'flatpak::repo' do
-	on_supported_os(facterversion: '3.6').each do |os, facts|
+  on_supported_os(facterversion: '3.6').each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
 

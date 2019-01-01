@@ -13,8 +13,8 @@ class flatpak::install (
   include ::flatpak::repo
 
   package { 'flatpak':
-    name   => $package_name,
     ensure => $package_ensure,
+    name   => $package_name,
   }
 }
 
