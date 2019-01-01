@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
-require File.expand_path('../../../../../../inifile/lib/puppet/util/ini_file', __FILE__)
+require 'puppet/util/ini_file'
 
 Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   commands flatpak: '/usr/bin/flatpak'
