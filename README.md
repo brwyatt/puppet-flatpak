@@ -64,82 +64,12 @@ your manifests.
 include ::flatpak
 ```
 
-## Reference
-
-* [Classes](#classes)
-* [Defined Types](#defined-types)
-* [Providers](#providers)
-
-### Classes
-
-#### `flatpak`
-
-Installs the Flatpak PPA and installs Flatpak
-
-Parameters:
-* `package_ensure`: Ensure value for the Flatpak package. Default: 'installed'
-* `repo_file_name`: Optional name for the repo source file. Defaults to the PPA
-  naming scheme to avoid duplicate repository files.
-
-#### `flatpak::remotes::gnome`
-
-Adds the Gnome SDK remote to Flatpak. Includes the `flatpak` class to ensure
-Flatpak is installed first.
-
-This class has no parameters.
-
-### Defined Types
-
-#### `flatpak`
-
-This type installs (or uninstalls) Flatpak apps.
-
-Parameters:
-* `ensure`: If the package should be `present` (or `installed`) or `absent` (or
-  `uninstalled`)
-* `arch`: The package architecture to be installed. Cannot be used if `ref` is
-  defined.
-* `branch`: The package branch to be installed. Cannot be used if `ref` is
-  defined.
-* `name`: (namevar) The name of the package to be installed (or removed)
-* `ref`: The package ref to install. This can be any valid pakcage ref, from
-  simply the package name up to a full Identifier Triple ("name/arch/branch").
-  Cannot be used if `branch` or `arch` are defined.
-* `remote`: The name of the remote repo to install the package from. Required
-  if `ensure` is "installed" or "present".
-
-If defined, this type will install the package identified in the `ref`
-parameter. Otherwise, it will attempt to generate an Identifier Triple from
-the values of `name`/`arch`/`branch`. If no parameters are explicitly defined,
-this will result in attempting to install the package with the resource's name
-and the remote's default architecture and branch.
-
-#### `flatpak_remote`
-
-This type adds and removes Flatpak remotes.
-
-Parameters:
-* `ensure`: If the remote should be `present` or `absent`
-* `name`: (namevar) The name of the remote
-* `location`: The location for the remote
-* `from`: if `true`, it specifies that location is a repo config file.
-
-### Providers
-
-#### `flatpak`
-
-Implements the `flatpak` type. Default provider.
-
-#### `flatpak_remote`
-
-Implements the `flatpak_remote` type. Default provider.
-
 ## Limitations
 
 Currently, this module can only install on Debian-based systems and has not been
-tested on distributions other than Ubuntu 16.04. It may or may not work on other
-Debian-based distributions, but makes no claims regarding such. This will not
-currently work at all on RHEL-based systems.
+tested on distributions other than Ubuntu 16.04 and 18.04. It may or may not
+work on other Debian-based distributions, but makes no claims regarding such.
+This will not currently work at all on RHEL-based systems.
 
 ## Development
 
