@@ -1,19 +1,33 @@
 require 'spec_helper'
 
-describe 'flatpak' do
-	on_supported_os(facterversion: '3.11').each do |os, os_facts|
+describe 'flatpak::repo::apt' do
+	on_supported_os(facterversion: '3.6').each do |os, facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { facts }
 
       it { is_expected.to compile }
-      it { is_expected.to contain_package('flatpak') }
       it { is_expected.to contain_class('apt') }
+      it { is_expected.to contain_class('flatpak::install') }
 
-      context 'with repo_file_name' do
-        let(:params) { { 'repo_file_name' => 'TEST' } }
+      case facts[:os]['family']
+      when 'Debian'
+        dist = facts[:os]['distro']['codename']
+        reponame = "alexlarsson-ubuntu-flatpak-#{dist}"
+        it { is_expected.to contain_apt__source(reponame).with(
+          :ensure => 'present',
+          :location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
+          :release => dist,
+          :repos => 'main',
+        )}
 
-        it { is_expected.to contain_apt__source('TEST') }
-        it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
+        keyid = '690951F1A4DE0F905496E8C6C793BFA2FA577F07'
+        it { is_expected.to contain_apt__key(
+          "Add key: #{keyid} from Apt::Source #{reponame}"
+        ).with(
+          :ensure => 'present',
+          :id => keyid,
+          :server => 'keyserver.ubuntu.com',
+        )}
       end
     end
   end

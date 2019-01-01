@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'flatpak::repo' do
+describe 'flatpak::config' do
 	on_supported_os(facterversion: '3.6').each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
@@ -9,8 +9,6 @@ describe 'flatpak::repo' do
 
       case facts[:os]['family']
       when 'Debian'
-        it { is_expected.to contain_class('flatpak::repo::apt') }
-        it { is_expected.not_to contain_class('flatpak::repo::yum') }
       end
     end
   end

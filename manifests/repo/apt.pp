@@ -38,6 +38,7 @@ class flatpak::repo::apt (
   String $repo_name,
 ){
   include ::apt
+  include ::flatpak::install
 
   apt::source { $repo_name:
     location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',

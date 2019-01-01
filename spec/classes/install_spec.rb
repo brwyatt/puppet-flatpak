@@ -1,19 +1,45 @@
 require 'spec_helper'
 
-describe 'flatpak' do
-	on_supported_os(facterversion: '3.11').each do |os, os_facts|
+describe 'flatpak::install' do
+	on_supported_os(facterversion: '3.6').each do |os, facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { facts }
 
       it { is_expected.to compile }
-      it { is_expected.to contain_package('flatpak') }
-      it { is_expected.to contain_class('apt') }
+      it { is_expected.to contain_class('flatpak::repo') }
+      it { is_expected.to contain_package('flatpak').with(
+        :ensure => 'latest',
+      )}
 
-      context 'with repo_file_name' do
-        let(:params) { { 'repo_file_name' => 'TEST' } }
+      case facts[:os]['family']
+      when 'Debian'
+        it { is_expected.to contain_package('flatpak').with(
+          :name => 'flatpak',
+        )}
+      end
 
-        it { is_expected.to contain_apt__source('TEST') }
-        it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
+      context "with package_name test_name" do
+        let(:params) do
+          {
+            package_name: 'test_name',
+          }
+        end
+
+        it { is_expected.to contain_package('flatpak').with(
+          :name => 'test_name',
+        )}
+      end
+
+      context "with package_ensure purged" do
+        let(:params) do
+          {
+            package_ensure: 'purged',
+          }
+        end
+
+        it { is_expected.to contain_package('flatpak').with(
+          :ensure => 'purged',
+        )}
       end
     end
   end

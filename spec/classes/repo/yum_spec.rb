@@ -1,20 +1,11 @@
 require 'spec_helper'
 
-describe 'flatpak' do
-	on_supported_os(facterversion: '3.11').each do |os, os_facts|
+describe 'flatpak::repo::yum' do
+	on_supported_os(facterversion: '3.6').each do |os, facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { facts }
 
-      it { is_expected.to compile }
-      it { is_expected.to contain_package('flatpak') }
-      it { is_expected.to contain_class('apt') }
-
-      context 'with repo_file_name' do
-        let(:params) { { 'repo_file_name' => 'TEST' } }
-
-        it { is_expected.to contain_apt__source('TEST') }
-        it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
-      end
+      it { is_expected.to compile.and_raise_error(/Not implemented or supported/) }
     end
   end
 end
