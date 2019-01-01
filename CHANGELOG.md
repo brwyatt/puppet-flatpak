@@ -70,7 +70,7 @@ Initial release
 - Add/Remove Flatpak remotes
 - Install/uninstall Flatpak apps
 
-[Unreleased]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.3...0.3.0
 [0.2.3]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.0...v0.2.1
