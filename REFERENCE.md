@@ -15,8 +15,8 @@
 
 **Resource types**
 
-* [`flatpak`](#flatpak): This type provides Puppet with the capabilities to manage flatpak apps. flatpak { 'org.gnome.Platform':   ensure => installed,   arch   => 'x
-* [`flatpak_remote`](#flatpak_remote): This type provides Puppet with the capabilities to manage flatpak remotes.
+* [`flatpak`](#flatpak): Provide capabilities to install/manage Flatpak apps
+* [`flatpak_remote`](#flatpak_remote): Provide capabilities to manage Flatpak remotes
 
 ## Classes
 
@@ -156,13 +156,20 @@ include ::flatpak::repo::yum
 
 ### flatpak
 
-This type provides Puppet with the capabilities to manage flatpak apps.
+Provide capabilities to install/manage Flatpak apps
+
+#### Examples
+
+##### Install Flatpak app
+
+```puppet
 flatpak { 'org.gnome.Platform':
   ensure => installed,
   arch   => 'x86_64',
   branch => '3.2',
   remote => 'gnome',
 }
+```
 
 #### Properties
 
@@ -215,8 +222,18 @@ Name of the remote repo to install from.
 
 ### flatpak_remote
 
-This type provides Puppet with the capabilities to manage flatpak
-remotes.
+Provide capabilities to manage Flatpak remotes
+
+#### Examples
+
+##### Add Flatpak remote
+
+```puppet
+flatpak_remote { 'gnome':
+  ensure => present,
+  url    => 'https://sdk.gnome.org/repo/',
+}
+```
 
 #### Properties
 

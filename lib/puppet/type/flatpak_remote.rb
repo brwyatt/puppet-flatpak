@@ -1,28 +1,13 @@
-# Copyright
-# ---------
-#
-# Copyright 2017, 2018 Bryan Wyatt, unless otherwise noted.
-#
-# This file is part of brwyatt-flatpak.
-#
-# brwyatt-flatpak is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# brwyatt-flatpak is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
-
 Puppet::Type.newtype(:flatpak_remote) do
-  @doc = <<-EOS
-    This type provides Puppet with the capabilities to manage flatpak
-    remotes.
-  EOS
+  @doc = <<-MANIFEST
+    @summary Provide capabilities to manage Flatpak remotes
+
+    @example Add Flatpak remote
+      flatpak_remote { 'gnome':
+        ensure => present,
+        url    => 'https://sdk.gnome.org/repo/',
+      }
+  MANIFEST
 
   ensurable
 
