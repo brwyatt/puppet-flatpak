@@ -38,9 +38,8 @@ class flatpak::remotes::gnome {
   include ::flatpak
 
   flatpak_remote { 'gnome':
-    ensure   => present,
-    location => 'https://sdk.gnome.org/gnome.flatpakrepo',
-    from     => true,
+    ensure => present,
+    url    => 'https://sdk.gnome.org/repo/',
   }
 }
 
