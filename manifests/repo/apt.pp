@@ -4,7 +4,7 @@
 #
 # === Parameters
 #
-# @param dist_name Distro codename to use for the repo release
+# @param dist_codename Distro codename to use for the repo release
 # @param repo_name Apt repo name (used for the sources.d file name)
 #
 # @example
@@ -34,7 +34,7 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 class flatpak::repo::apt (
-  String $dist_name,
+  String $dist_codename,
   String $repo_name,
 ){
   include ::apt
