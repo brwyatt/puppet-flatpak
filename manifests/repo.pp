@@ -1,11 +1,14 @@
-# == Class: flatpak
+# == Class: flatpak::repo
 #
-# @summary Install and configure Flatpak
+# @summary Configure Flatpak repo(s)
 #
 # === Parameters
 #
+# @param apt Install/configure apt repo
+# @param yum Install/configure yum repo
+#
 # @example
-#   include ::flatpak
+#   include ::flatpak::repo
 #
 # === Authors
 #
@@ -13,7 +16,7 @@
 #
 # === Copyright
 #
-# Copyright 2017, 2018 Bryan Wyatt, unless otherwise noted.
+# Copyright 2018 Bryan Wyatt, unless otherwise noted.
 #
 # This file is part of brwyatt-flatpak.
 #
@@ -30,10 +33,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
-class flatpak (){
-  include ::flatpak::repo
-  include ::flatpak::install
-  include ::flatpak::config
+class flatpak::repo (
+  Boolean $apt,
+  Boolean $yum,
+){
+  if $apt {
+    include ::flatpak::repo::apt
+  }
+
+  if $yum {
+    include ::flatpak::repo::yum
+  }
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab

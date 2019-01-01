@@ -1,0 +1,5 @@
+---
+flatpak::repo::apt: true
+
+flatpak::repo::apt::dist_name: "%{::os['distro']['codename']}"
+flatpak::repo::apt::repo_name: "alexlarsson-ubuntu-flatpak-%{::os['distro']['codename']}"

@@ -1,0 +1,6 @@
+---
+flatpak::install::package_ensure: 'latest'
+flatpak::install::package_name: 'flatpak'
+
+flatpak::repo::apt: false
+flatpak::repo::yum: false

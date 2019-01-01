@@ -1,11 +1,14 @@
-# == Class: flatpak
+# == Class: flatpak::install
 #
-# @summary Install and configure Flatpak
+# @summary Configure repo and install Flatpak
 #
 # === Parameters
 #
+# @param package_ensure Ensure value of the package
+# @param package_name Name of the package in the repo
+#
 # @example
-#   include ::flatpak
+#   include ::flatpak::install
 #
 # === Authors
 #
@@ -13,7 +16,7 @@
 #
 # === Copyright
 #
-# Copyright 2017, 2018 Bryan Wyatt, unless otherwise noted.
+# Copyright 2018 Bryan Wyatt, unless otherwise noted.
 #
 # This file is part of brwyatt-flatpak.
 #
@@ -30,10 +33,16 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
-class flatpak (){
+class flatpak::install (
+  String $package_ensure,
+  String $package_name,
+){
   include ::flatpak::repo
-  include ::flatpak::install
-  include ::flatpak::config
+
+  package { 'flatpak':
+    name   => $package_name,
+    ensure => $package_ensure,
+  }
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab
