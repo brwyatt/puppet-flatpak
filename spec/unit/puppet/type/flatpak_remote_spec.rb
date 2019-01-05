@@ -12,10 +12,14 @@ describe Puppet::Type.type(:flatpak_remote) do
       end
 
       describe 'url format validation' do
-          subject { -> { described_class.new(
-            name: 'url_test',
-            url: url,
-          ) } }
+        subject do
+          -> {
+            described_class.new(
+              name: 'url_test',
+              url: url,
+            )
+          }
+        end
 
         valid_urls = [
           'http://example.net/some/path',
@@ -45,7 +49,6 @@ describe Puppet::Type.type(:flatpak_remote) do
             it { is_expected.to raise_exception }
           end
         end
-
       end
     end
   end
