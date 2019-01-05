@@ -3,6 +3,15 @@
 ---
 fixtures:
   forge_modules:
-    apt: "puppetlabs/apt"
-    inifile: "puppetlabs/inifile"
-    stdlib: "puppetlabs/stdlib"
+    apt:
+      repo: "puppetlabs/apt"
+      ref: "4.0.0"
+    concat:
+      repo: "puppetlabs/concat"
+      ref: "4.1.0"
+    inifile:
+      repo: "puppetlabs/inifile"
+      ref: "2.2.0"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      repo: "4.0.0"
