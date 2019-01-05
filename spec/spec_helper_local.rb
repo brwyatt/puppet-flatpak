@@ -3,4 +3,10 @@
 # agent` and `puppet apply`, so this should be okay...
 $LOAD_PATH.unshift File.expand_path('./fixtures/modules/inifile/lib', File.dirname(__FILE__))
 
+RSpec.configure do |c|
+  c.after(:suite) do
+    RSpec::Puppet::Coverage.report!
+  end
+end
+
 # vim: ts=2 sts=2 sw=2 expandtab
