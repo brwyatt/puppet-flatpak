@@ -3,7 +3,9 @@
 # @example Basic use
 #   include ::flatpak::config
 #
-class flatpak::config (){
+class flatpak::config (
+  Boolean $purge = false,
+){
   $repo_config_path = '/var/lib/flatpak/repo/config'
 
   file { 'Flatpak repo config':

@@ -5,18 +5,21 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   commands flatpak: '/usr/bin/flatpak'
   commands gpg: '/usr/bin/gpg'
 
-  @config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
-
   def initialize(value = {})
     super(value)
-    @property_flush = {}
+
+    @property_flush = {
+      :ensure => :absent
+    }
   end
 
   def self.get_remote(remote)
     section_name = "remote \"#{remote}\""
 
-    if @config_file.section_names.include? section_name
-      settings = @config_file.get_settings(section_name)
+    config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
+
+    if config_file.section_names.include? section_name
+      settings = config_file.get_settings(section_name)
       {
         name: remote,
         ensure: :present,
@@ -35,7 +38,9 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   def self.instances
     remotes = []
 
-    @config_file.section_names.each do |section_name|
+    config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
+
+    config_file.section_names.each do |section_name|
       match = section_name.match(%r{\Aremote "([^"]*)"\Z})
       if match
         remotes << new(get_remote(match.captures[0]))
@@ -55,6 +60,9 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def create
+    if resource[:url].nil?
+      fail('URL is required')
+    end
     @property_flush[:ensure] = :present
   end
 
@@ -67,8 +75,21 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def flush
-    if @property_flush[:ensure] == :absent
+    config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
+
+    section_name = "remote \"#{resource['name']}\""
+
+    for setting in config_file.get_settings(section_name) do
+      config_file.remove_setting(section_name, setting)
     end
+
+    if @property_hash[:ensure] == :present
+      config_file.set_value(section_name, 'url', resource['url'])
+      config_file.set_value(section_name, 'gpg-verify', resource['gpg_verify'].to_s)
+      config_file.set_value(section_name, 'gpg-verify-summary', resource['gpg_verify_summary'].to_s)
+    end
+
+    config_file.save()
 
     @property_hash = self.class.get_remote(resource[:name])
   end
