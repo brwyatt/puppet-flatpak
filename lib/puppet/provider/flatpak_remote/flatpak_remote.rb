@@ -9,9 +9,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
     debug('[INITIALIZE]')
     super(value)
 
-    @property_flush = {
-      :ensure => :absent
-    }
+    @property_flush = {}
   end
 
   def self.get_remote(remote)
@@ -26,8 +24,8 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
         name: remote,
         ensure: :present,
         url: settings['url'],
-        gpg_verify: settings['gpg-verify'].to_s.casecmp('true').zero?,
-        gpg_verify_summary: settings['gpg-verify-summary'].to_s.casecmp('true').zero?,
+        gpg_verify: settings['gpg-verify'],
+        gpg_verify_summary: settings['gpg-verify-summary'],
       }
     else
       {
@@ -84,21 +82,19 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   def flush
     debug('[FLUSH]')
     debug("Property_hash: #{@property_hash}")
-    config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
 
-    section_name = "remote \"#{resource['name']}\""
+    if @property_flush[:ensure] == :absent then
+      flatpak 'remote-delete', '--force', resource[:name]
+    else
+      config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
+      section_name = "remote \"#{resource['name']}\""
 
-    for setting in config_file.get_settings(section_name) do
-      config_file.remove_setting(section_name, setting)
-    end
-
-    if @property_hash[:ensure] == :present
       config_file.set_value(section_name, 'url', resource['url'])
       config_file.set_value(section_name, 'gpg-verify', resource['gpg_verify'].to_s)
       config_file.set_value(section_name, 'gpg-verify-summary', resource['gpg_verify_summary'].to_s)
-    end
 
-    config_file.save()
+      config_file.save()
+    end
 
     @property_hash = self.class.get_remote(resource[:name])
   end

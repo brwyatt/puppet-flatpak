@@ -4,7 +4,7 @@
 #   include ::flatpak::config
 #
 class flatpak::config (
-  Boolean $purge = false,
+  Boolean $purge_remotes = false,
 ){
   $repo_config_path = '/var/lib/flatpak/repo/config'
 
@@ -22,9 +22,9 @@ class flatpak::config (
   }
 
   ini_setting { 'Flatpak repo config - core:repo_version':
-    ensure    => present,
-    setting   => 'repo_version',
-    value     => '1',
+    ensure  => present,
+    setting => 'repo_version',
+    value   => '1',
   }
 
   ini_setting { 'Flatpak repo config - core:mode':
@@ -37,6 +37,12 @@ class flatpak::config (
     ensure  => present,
     setting => 'min-free-space-size',
     value   => '500MB',
+  }
+
+  if $purge_remotes {
+    resources { 'flatpak_remote':
+      purge => true,
+    }
   }
 }
 
