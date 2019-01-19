@@ -6,6 +6,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   commands gpg: '/usr/bin/gpg'
 
   def initialize(value = {})
+    debug('[INITIALIZE]')
     super(value)
 
     @property_flush = {
@@ -14,6 +15,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def self.get_remote(remote)
+    debug('[GET_REMOTE]')
     section_name = "remote \"#{remote}\""
 
     config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
@@ -36,6 +38,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def self.instances
+    debug('[INSTANCES]')
     remotes = []
 
     config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
@@ -51,6 +54,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def self.prefetch(resources)
+    debug('[PREFETCH]')
     instances.each do |instance|
       resource = resources[instance.name]
       if resource
@@ -60,6 +64,7 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def create
+    debug('[CREATE]')
     if resource[:url].nil?
       fail('URL is required')
     end
@@ -67,14 +72,18 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   end
 
   def destroy
+    debug('[DESTROY]')
     @property_flush[:ensure] = :absent
   end
 
   def exists?
+    debug('[EXISTS]')
     @property_hash[:ensure] == :present
   end
 
   def flush
+    debug('[FLUSH]')
+    debug("Property_hash: #{@property_hash}")
     config_file = Puppet::Util::IniFile.new('/var/lib/flatpak/repo/config', '=')
 
     section_name = "remote \"#{resource['name']}\""
