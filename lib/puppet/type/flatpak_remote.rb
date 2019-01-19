@@ -33,6 +33,15 @@ Puppet::Type.newtype(:flatpak_remote) do
     newvalues(:true, :false)
     defaultto true
   end
+
+  newproperty(:remote_title) do
+    desc 'A nice name to use for this remote'
+    defaultto 'default!'
+  end
+
+  newproperty(:default_branch) do
+    desc 'Default branch to use for this remote'
+  end
 end
 
 # vim: ts=2 sts=2 sw=2 expandtab

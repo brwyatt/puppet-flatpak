@@ -8,6 +8,12 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   def initialize(value = {})
     debug('[INITIALIZE]')
     super(value)
+    debug("Resource[name]: #{value[:name]}")
+    debug("Resource[url]: #{value[:url]}")
+    debug("Resource[remote_title]: #{value[:remote_title]}")
+
+    @remote_title = nil
+    @default_branch = nil
 
     @property_flush = {}
   end
@@ -20,19 +26,32 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
     if config_file.section_names.include? section_name
       settings = config_file.get_settings(section_name)
-      {
+      values = {
         name: remote,
         ensure: :present,
         url: settings['url'],
         gpg_verify: settings['gpg-verify'],
         gpg_verify_summary: settings['gpg-verify-summary'],
+        remote_title: nil,
+        default_branch: nil,
       }
+
+      if settings.key?('xa.title') then
+        values[:remote_title] = settings['xa.title']
+      end
+      if settings.key?('xa.default-branch') then
+        values[:default_branch] = settings['xa.default-branch']
+      end
     else
-      {
+      values = {
         name: remote,
         ensure: :absent,
       }
     end
+
+    debug("Values: #{values}")
+
+    values
   end
 
   def self.instances
@@ -76,6 +95,10 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   def exists?
     debug('[EXISTS]')
+    debug("Property_hash: #{@property_hash}")
+    debug("Resource[name]: #{resource[:name]}")
+    debug("Resource[url]: #{resource[:url]}")
+    debug("Resource[remote_title]: #{resource[:remote_title]}")
     @property_hash[:ensure] == :present
   end
 
@@ -92,6 +115,22 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
       config_file.set_value(section_name, 'url', resource['url'])
       config_file.set_value(section_name, 'gpg-verify', resource['gpg_verify'].to_s)
       config_file.set_value(section_name, 'gpg-verify-summary', resource['gpg_verify_summary'].to_s)
+
+      if not resource[:remote_title].nil? then
+        config_file.set_value(section_name, 'xa.title', resource['remote_title'])
+        config_file.set_value(section_name, 'xa.title-is-set', 'true')
+      else
+        config_file.remove_setting(section_name, 'xa.title')
+        config_file.remove_setting(section_name, 'xa.title-is-set')
+      end
+
+      if not resource[:default_branch].nil? then
+        config_file.set_value(section_name, 'xa.default-branch', resource['default_branch'])
+        config_file.set_value(section_name, 'xa.default-branch-is-set', 'true')
+      else
+        config_file.remove_setting(section_name, 'xa.default-branch')
+        config_file.remove_setting(section_name, 'xa.default-branch-is-set')
+      end
 
       config_file.save()
     end
