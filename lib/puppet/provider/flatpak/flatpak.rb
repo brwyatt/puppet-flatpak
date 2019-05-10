@@ -41,7 +41,7 @@ Puppet::Type.type(:flatpak).provide(:flatpak) do
 
   def destroy
     ref = resolve_ref(resource)
-    flatpak 'uninstall', ref
+    flatpak 'uninstall', '--assumeyes', ref
   end
 
   def exists?
