@@ -1,5 +1,7 @@
 # flatpak
 
+[![Build Status](https://travis-ci.com/brwyatt/puppet-flatpak.svg?branch=master)](https://travis-ci.com/brwyatt/puppet-flatpak)
+
 [![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://raw.githubusercontent.com/brwyatt/puppet-flatpak/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/brwyatt/puppet-flatpak.svg)](https://github.com/brwyatt/puppet-flatpak/issues)
 [![GitHub forks](https://img.shields.io/github/forks/brwyatt/puppet-flatpak.svg)](https://github.com/brwyatt/puppet-flatpak/network)
