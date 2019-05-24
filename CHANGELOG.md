@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - PDK Update
+- Travis CI integration
 
 ## [0.2.4] - 2019-05-10
 ### Fixed
