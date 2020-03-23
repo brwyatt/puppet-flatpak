@@ -52,33 +52,36 @@ class flatpak (
   String $package_ensure = 'installed',
   Optional[String] $repo_file_name = undef,
 ){
-  include ::apt
+  if $facts['os']['family'] == 'Debian' {
+    include ::apt
 
-  # If Facter is at least 3.0.0
-  if versioncmp($::facterversion, '3.0.0') >= 0 {
-    $dist_codename = $::os['distro']['codename']
-  } elsif versioncmp($::facterversion, '2.2.0') >= 0 {
-    # Version is at least 2.2.0
-    $dist_codename = $::os['lsb']['distcodename']
-  } else {
-    # REALLY old version, use legacy fact
-    $dist_codename = $::lsbdistcodename
-  }
+    # If Facter is at least 3.0.0
+    if versioncmp($::facterversion, '3.0.0') >= 0 {
+      $dist_codename = $::os['distro']['codename']
+    } elsif versioncmp($::facterversion, '2.2.0') >= 0 {
+      # Version is at least 2.2.0
+      $dist_codename = $::os['lsb']['distcodename']
+    } else {
+      # REALLY old version, use legacy fact
+      $dist_codename = $::lsbdistcodename
+    }
 
-  if $repo_file_name {
-    $repo_name = $repo_file_name
-  } else {
-    $repo_name = "alexlarsson-ubuntu-flatpak-${dist_codename}"
-  }
+    if $repo_file_name {
+      $repo_name = $repo_file_name
+    } else {
+      $repo_name = "alexlarsson-ubuntu-flatpak-${dist_codename}"
+    }
 
-  apt::source { $repo_name:
-    location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
-    release  => $dist_codename,
-    repos    => 'main',
-    key      => {
-      id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
-      server => 'keyserver.ubuntu.com',
-    },
+    apt::source { $repo_name:
+      location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
+      release  => $dist_codename,
+      repos    => 'main',
+      key      => {
+        id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
+        server => 'keyserver.ubuntu.com',
+      },
+    }
+    Exec['apt_update'] -> Package['flatpak']
   }
 
   package { 'flatpak':
@@ -87,7 +90,6 @@ class flatpak (
 
   Flatpak_remote <| |> -> Flatpak <| |>
 
-  Exec['apt_update'] -> Package['flatpak']
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab

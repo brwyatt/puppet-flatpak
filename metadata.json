@@ -23,6 +23,18 @@
       "operatingsystemrelease": [
         "16.04"
       ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "8"
+      ]
     }
   ],
   "requirements": [

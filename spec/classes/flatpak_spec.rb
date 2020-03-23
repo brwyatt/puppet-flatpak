@@ -7,13 +7,23 @@ describe 'flatpak' do
 
       it { is_expected.to compile }
       it { is_expected.to contain_package('flatpak') }
-      it { is_expected.to contain_class('apt') }
-
+      case os_facts[:os]['family']
+      when 'Debian'
+        it { is_expected.to contain_class('apt') }
+      else
+        it { is_expected.not_to contain_class('apt') }
+      end
       context 'with repo_file_name' do
         let(:params) { { 'repo_file_name' => 'TEST' } }
 
-        it { is_expected.to contain_apt__source('TEST') }
-        it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
+        case os_facts[:os]['family']
+        when 'Debian'
+          it { is_expected.to contain_apt__source('TEST') }
+          it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
+        else
+          it { is_expected.not_to contain_apt__source('TEST') }
+          it { is_expected.not_to contain_file('/etc/apt/sources.list.d/TEST.list') }
+        end
       end
     end
   end

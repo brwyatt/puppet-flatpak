@@ -26,8 +26,10 @@
 
 ## Description
 
-This module installs Flatpak from the developer's PPA on Launchpad and offers
-two defined types, one for adding/removing Remotes and another for installing/
+This module installs Flatpak. 
+* On Debian family from the developer's PPA Debian on Launchpad.
+* On Redhat family the OS flatpak is used.
+The module offers two defined types, one for adding/removing Remotes and another for installing/
 removing Flatpak applications.
 
 This module was created to allow for managing/installing Flatpak-based
@@ -39,15 +41,15 @@ Flatpak's ability to be one-size-fits all.
 
 ### What flatpak affects
 
-This module adds the Flatpak PPA on Launchpad to the system's repository and
-installs Flatpak.
+This module adds on Debian the Flatpak PPA on Launchpad to the system's repository. It
+then installs Flatpak.
 
 ### Setup Requirements
 
-Currently, this module only supports Ubuntu, but may work with other Debian-
+Currently, this module supports Ubuntu and RedHat OS family, It may work with other Debian-
 based distributions.
 
-This module requires the `puppetlabs-apt` module in order to manage Apt repos.
+On Ubuntu the module requires the `puppetlabs-apt` module in order to manage Apt repos.
 
 ### Beginning with flatpak
 
@@ -80,7 +82,7 @@ Installs the Flatpak PPA and installs Flatpak
 
 Parameters:
 * `package_ensure`: Ensure value for the Flatpak package. Default: 'installed'
-* `repo_file_name`: Optional name for the repo source file. Defaults to the PPA
+* `repo_file_name`: Optional name for a Unbuntu repo source file. Defaults to the PPA
   naming scheme to avoid duplicate repository files.
 
 #### `flatpak::remotes::gnome`
@@ -138,10 +140,9 @@ Implements the `flatpak_remote` type. Default provider.
 
 ## Limitations
 
-Currently, this module can only install on Debian-based systems and has not been
-tested on distributions other than Ubuntu 16.04. It may or may not work on other
-Debian-based distributions, but makes no claims regarding such. This will not
-currently work at all on RHEL-based systems.
+Currently, this module can only install on Debian-based systems and Redhat based
+systemd it has not been tested on distributions other than Ubuntu 16.04, CentOS 7 and CentOS 8.
+It may or may not work on other Debian-based or Redhat based distributions, but makes no claims regarding such.
 
 ## Development
 
