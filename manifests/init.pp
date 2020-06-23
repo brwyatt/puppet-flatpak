@@ -57,8 +57,6 @@ class flatpak (
   Boolean $manage_repo = true,
   Optional[String] $repo_file_name = undef,
 ){
-  include ::apt
-
   # If Facter is at least 3.0.0
   if versioncmp($::facterversion, '3.0.0') >= 0 {
     $dist_codename = $::os['distro']['codename']
@@ -71,6 +69,8 @@ class flatpak (
   }
 
   if $manage_repo {
+    include ::apt
+
     if $repo_file_name {
       $repo_name = $repo_file_name
     } else {
@@ -86,6 +86,8 @@ class flatpak (
         server => 'keyserver.ubuntu.com',
       },
     }
+
+    Exec['apt_update'] -> Package['flatpak']
   }
 
   package { 'flatpak':
@@ -93,8 +95,6 @@ class flatpak (
   }
 
   Flatpak_remote <| |> -> Flatpak <| |>
-
-  Exec['apt_update'] -> Package['flatpak']
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab
