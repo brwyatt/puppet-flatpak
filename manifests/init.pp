@@ -10,6 +10,10 @@
 # Ensure value for the Flatpack package. Should be 'installed', 'latest', or a
 # version. Defaults to 'installed'.
 #
+# * `manage_repo`
+# Wether we should manage the apt repo or assume that flatpak is
+# available from packaging. Defaults to 'true'.
+#
 # * `repo_file_name`
 # Optional name for the repo source file. Defaults to the PPA naming scheme to
 # avoid duplicate repository files.
@@ -50,6 +54,7 @@
 
 class flatpak (
   String $package_ensure = 'installed',
+  Boolean $manage_repo = true,
   Optional[String] $repo_file_name = undef,
 ){
   include ::apt
@@ -65,20 +70,22 @@ class flatpak (
     $dist_codename = $::lsbdistcodename
   }
 
-  if $repo_file_name {
-    $repo_name = $repo_file_name
-  } else {
-    $repo_name = "alexlarsson-ubuntu-flatpak-${dist_codename}"
-  }
+  if $manage_repo {
+    if $repo_file_name {
+      $repo_name = $repo_file_name
+    } else {
+      $repo_name = "alexlarsson-ubuntu-flatpak-${dist_codename}"
+    }
 
-  apt::source { $repo_name:
-    location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
-    release  => $dist_codename,
-    repos    => 'main',
-    key      => {
-      id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
-      server => 'keyserver.ubuntu.com',
-    },
+    apt::source { $repo_name:
+      location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
+      release  => $dist_codename,
+      repos    => 'main',
+      key      => {
+        id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
+        server => 'keyserver.ubuntu.com',
+      },
+    }
   }
 
   package { 'flatpak':
