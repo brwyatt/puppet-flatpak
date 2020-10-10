@@ -11,8 +11,9 @@
 # version. Defaults to 'installed'.
 #
 # * `manage_repo`
-# Wether we should manage the apt repo or assume that flatpak is
-# available from packaging. Defaults to 'true'.
+# Wether to manage the apt repo or assume it is provided by another repo managed
+# elsewhere. Defaults to 'true' on Debian-based systems. (Only apt is presently
+# supported)
 #
 # * `repo_file_name`
 # Optional name for the repo source file. Defaults to the PPA naming scheme to
@@ -35,7 +36,7 @@
 # Copyright
 # ---------
 #
-# Copyright 2017 Bryan Wyatt, unless otherwise noted.
+# Copyright 2017, 2020 Bryan Wyatt, unless otherwise noted.
 #
 # This file is part of brwyatt-flatpak.
 #
@@ -53,8 +54,8 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 class flatpak (
-  String $package_ensure = 'installed',
-  Boolean $manage_repo = true,
+  String $package_ensure,
+  Boolean $manage_repo,
   Optional[String] $repo_file_name = undef,
 ){
   # If Facter is at least 3.0.0
