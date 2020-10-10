@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2020-10-10
+Feature/support release
+### Added
+- `manage_repo` parameter to make repo management optional
+- Add/claim support for RHEL/CentOS
+- Module Hiera for setting defaults conditionally (used by new `manage_repo` parameter)
+
 ## [0.2.5] - 2019-05-24
 ### Added
 - PDK Update
@@ -67,6 +74,7 @@ Initial release
 - Add/Remove Flatpak remotes
 - Install/uninstall Flatpak apps
 
+[0.2.6]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/brwyatt/puppet-flatpak/compare/v0.2.2...v0.2.3

@@ -26,9 +26,9 @@
 
 ## Description
 
-This module (optionnally) installs Flatpak from the developer's PPA on
+This module (optionally) installs Flatpak from the developer's PPA on
 Launchpad and offers two defined types, one for adding/removing
-Remotes and another for installing/ removing Flatpak applications.
+Remotes and another for installing/removing Flatpak applications.
 
 This module was created to allow for managing/installing Flatpak-based
 application distributions, as some developers have started to move away from
@@ -39,13 +39,13 @@ Flatpak's ability to be one-size-fits all.
 
 ### What flatpak affects
 
-This module adds the Flatpak PPA on Launchpad to the system's
-repository (if `manage_repo` is true) and installs Flatpak.
+This module (optionally) adds the Flatpak PPA on Launchpad to the system's repository
+(if `manage_repo` is true - default for Debian family) and installs Flatpak.
 
 ### Setup Requirements
 
-Currently, this module only supports Ubuntu, but may work with other Debian-
-based distributions.
+Currently, this module only supports Ubuntu and RedHat, but may work with other Debian-
+based or RedHat-based distributions.
 
 This module requires the `puppetlabs-apt` module in order to manage
 Apt repos (if `manage_repo` is true).
