@@ -58,19 +58,20 @@ class flatpak (
   Boolean $manage_repo,
   Optional[String] $repo_file_name = undef,
 ){
-  # If Facter is at least 3.0.0
-  if versioncmp($::facterversion, '3.0.0') >= 0 {
-    $dist_codename = $::os['distro']['codename']
-  } elsif versioncmp($::facterversion, '2.2.0') >= 0 {
-    # Version is at least 2.2.0
-    $dist_codename = $::os['lsb']['distcodename']
-  } else {
-    # REALLY old version, use legacy fact
-    $dist_codename = $::lsbdistcodename
-  }
 
   if $manage_repo {
     include ::apt
+
+    if versioncmp($::facterversion, '3.0.0') >= 0 {
+      # If Facter is at least 3.0.0
+      $dist_codename = $::os['distro']['codename']
+    } elsif versioncmp($::facterversion, '2.2.0') >= 0 {
+      # Version is at least 2.2.0
+      $dist_codename = $::os['lsb']['distcodename']
+    } else {
+      # REALLY old version, use legacy fact
+      $dist_codename = $::lsbdistcodename
+    }
 
     if $repo_file_name {
       $repo_name = $repo_file_name
