@@ -8,8 +8,8 @@ describe 'flatpak' do
       it { is_expected.to compile }
       it { is_expected.to contain_package('flatpak') }
 
-      if facts[:osfamily] == 'Debian' then
-      	it { is_expected.to contain_class('apt') }
+      if facts[:osfamily] == 'Debian'
+        it { is_expected.to contain_class('apt') }
 
         context 'with repo_file_name' do
           let(:params) { { 'repo_file_name' => 'TEST' } }
@@ -17,8 +17,8 @@ describe 'flatpak' do
           it { is_expected.to contain_apt__source('TEST') }
           it { is_expected.to contain_file('/etc/apt/sources.list.d/TEST.list') }
         end
-      elsif facts[:osfamily] == 'RedHat' then
-        it { is_expected.to_not contain_class('apt') }
+      elsif facts[:osfamily] == 'RedHat'
+        it { is_expected.not_to contain_class('apt') }
       end
     end
   end
