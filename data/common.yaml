@@ -1,0 +1,3 @@
+---
+flatpak::package_ensure: 'installed'
+flatpak::manage_repo: false

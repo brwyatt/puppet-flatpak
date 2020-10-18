@@ -10,6 +10,11 @@
 # Ensure value for the Flatpack package. Should be 'installed', 'latest', or a
 # version. Defaults to 'installed'.
 #
+# * `manage_repo`
+# Wether to manage the apt repo or assume it is provided by another repo managed
+# elsewhere. Defaults to 'true' on Debian-based systems. (Only apt is presently
+# supported)
+#
 # * `repo_file_name`
 # Optional name for the repo source file. Defaults to the PPA naming scheme to
 # avoid duplicate repository files.
@@ -31,7 +36,7 @@
 # Copyright
 # ---------
 #
-# Copyright 2017 Bryan Wyatt, unless otherwise noted.
+# Copyright 2017, 2020 Bryan Wyatt, unless otherwise noted.
 #
 # This file is part of brwyatt-flatpak.
 #
@@ -49,36 +54,42 @@
 # along with brwyatt-flatpak.  If not, see <http://www.gnu.org/licenses/>.
 
 class flatpak (
-  String $package_ensure = 'installed',
+  String $package_ensure,
+  Boolean $manage_repo,
   Optional[String] $repo_file_name = undef,
 ){
-  include ::apt
 
-  # If Facter is at least 3.0.0
-  if versioncmp($::facterversion, '3.0.0') >= 0 {
-    $dist_codename = $::os['distro']['codename']
-  } elsif versioncmp($::facterversion, '2.2.0') >= 0 {
-    # Version is at least 2.2.0
-    $dist_codename = $::os['lsb']['distcodename']
-  } else {
-    # REALLY old version, use legacy fact
-    $dist_codename = $::lsbdistcodename
-  }
+  if $manage_repo {
+    include ::apt
 
-  if $repo_file_name {
-    $repo_name = $repo_file_name
-  } else {
-    $repo_name = "alexlarsson-ubuntu-flatpak-${dist_codename}"
-  }
+    if versioncmp($::facterversion, '3.0.0') >= 0 {
+      # If Facter is at least 3.0.0
+      $dist_codename = $::os['distro']['codename']
+    } elsif versioncmp($::facterversion, '2.2.0') >= 0 {
+      # Version is at least 2.2.0
+      $dist_codename = $::os['lsb']['distcodename']
+    } else {
+      # REALLY old version, use legacy fact
+      $dist_codename = $::lsbdistcodename
+    }
 
-  apt::source { $repo_name:
-    location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
-    release  => $dist_codename,
-    repos    => 'main',
-    key      => {
-      id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
-      server => 'keyserver.ubuntu.com',
-    },
+    if $repo_file_name {
+      $repo_name = $repo_file_name
+    } else {
+      $repo_name = "alexlarsson-ubuntu-flatpak-${dist_codename}"
+    }
+
+    apt::source { $repo_name:
+      location => 'http://ppa.launchpad.net/alexlarsson/flatpak/ubuntu',
+      release  => $dist_codename,
+      repos    => 'main',
+      key      => {
+        id     => '690951F1A4DE0F905496E8C6C793BFA2FA577F07',
+        server => 'keyserver.ubuntu.com',
+      },
+    }
+
+    Exec['apt_update'] -> Package['flatpak']
   }
 
   package { 'flatpak':
@@ -86,8 +97,6 @@ class flatpak (
   }
 
   Flatpak_remote <| |> -> Flatpak <| |>
-
-  Exec['apt_update'] -> Package['flatpak']
 }
 
 # vim: ts=2 sts=2 sw=2 expandtab

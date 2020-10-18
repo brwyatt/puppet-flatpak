@@ -1,6 +1,6 @@
 {
   "name": "brwyatt-flatpak",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "Bryan Wyatt <brwyatt@gmail.com>",
   "summary": "Module for installing and managing Flatpak packages",
   "license": "LGPL-3.0",
@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.0.0 < 5.0.0"
+      "version_requirement": ">= 4.0.0 < 7.0.0"
     },
     {
       "name": "puppetlabs-apt",
@@ -21,7 +21,22 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04"
+        "16.04",
+        "18.04"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7",
+        "8"
       ]
     }
   ],
