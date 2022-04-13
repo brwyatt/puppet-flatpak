@@ -23,6 +23,9 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
 
   def create
     args = ['remote-add']
+    if resource[:gpg_import]
+      args.push('--gpg-import=' + resource[:gpg_import])
+    end
     if resource[:from]
       args.push('--from')
     end
