@@ -126,6 +126,8 @@ Parameters:
 * `name`: (namevar) The name of the remote
 * `location`: The location for the remote
 * `from`: if `true`, it specifies that location is a repo config file.
+* `gpg_import`: If defined, imports the gpg-file with the remote. The gpg file needs to exist already
+   and should probably be placed in /var/lib/flatpak/repo diretory.
 
 ### Providers
 

@@ -47,6 +47,12 @@ Puppet::Type.newtype(:flatpak_remote) do
 
     defaultto false
   end
+
+  newparam(:gpg_import) do
+    desc 'Specify gpg file to import'
+
+    defaultto false
+  end
 end
 
 # vim: ts=2 sts=2 sw=2 expandtab
