@@ -22,16 +22,34 @@ Puppet::Type.type(:flatpak_remote).provide(:flatpak_remote) do
   commands flatpak: '/usr/bin/flatpak'
 
   def create
+    if disabled?
+      return enable
+    end
+
     args = ['remote-add']
     if resource[:from]
       args.push('--from')
     end
     args.push(resource[:name], resource[:location])
-    flatpak(args)
+
+    flatpak args
   end
 
   def destroy
     flatpak 'remote-delete', resource[:name]
+  end
+
+  def enable
+    flatpak 'remote-modify', '--enable', resource[:name]
+  end
+
+  def disabled?
+    method(:flatpak).call(['remotes', '--show-disabled']).split("\n").each do |line|
+      if %r{^#{Regexp.escape(resource[:name])}\s}.match?(line)
+          return line.match('disabled')
+      end
+    end
+    false
   end
 
   def exists?
